@@ -1,4 +1,4 @@
-package com.example.bankaccountapp.features.register
+package com.example.bankaccountapp.features.view.register
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable

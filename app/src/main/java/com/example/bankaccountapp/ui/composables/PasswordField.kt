@@ -40,6 +40,7 @@ fun PasswordField(
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
             value = text,
             onValueChange = {
                 onValueChange(it)

@@ -1,4 +1,4 @@
-package com.example.bankaccountapp.features.login
+package com.example.bankaccountapp.features.view.login
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bankaccountapp.R
 import com.example.bankaccountapp.ui.composables.BaseTextField
-import com.example.bankaccountapp.ui.composables.BottomNavBar
 import com.example.bankaccountapp.ui.composables.BaseButton
 import com.example.bankaccountapp.ui.composables.PasswordField
 import com.example.bankaccountapp.ui.composables.RememberMe
@@ -38,7 +37,7 @@ fun LoginScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(start = 12.dp),
+                .padding(start = 12.dp, end = 12.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(stringResource(R.string.login_title))

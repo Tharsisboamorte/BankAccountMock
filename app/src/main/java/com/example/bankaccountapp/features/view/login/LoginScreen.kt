@@ -27,10 +27,22 @@ import com.example.bankaccountapp.ui.composables.RememberMe
 import com.example.bankaccountapp.ui.theme.BankAccountAppTheme
 import com.example.bankaccountapp.ui.theme.PrimaryPurple
 
+
+@Composable
+fun LoginRoute(
+    navigateToHome: () -> Unit,
+) {
+    LoginScreen(
+        navigateToHome = navigateToHome
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navigateToHome: () -> Unit,
+) {
     Scaffold {
         Column(
             horizontalAlignment = Alignment.Start,
@@ -60,7 +72,9 @@ fun LoginScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 BaseButton(
-                    onClick = { },
+                    onClick = {
+                              
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = PrimaryPurple,
                     ),
@@ -68,16 +82,6 @@ fun LoginScreen() {
                     Text(text = "Login")
                 }
             }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun LoginScreenPreview(){
-    BankAccountAppTheme {
-        Surface {
-            LoginScreen()
         }
     }
 }

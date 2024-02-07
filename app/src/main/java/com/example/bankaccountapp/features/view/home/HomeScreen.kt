@@ -1,4 +1,4 @@
-package com.example.bankaccountapp.features.view
+package com.example.bankaccountapp.features.view.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -24,15 +24,39 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bankaccountapp.features.viewmodel.MainViewModel
+import com.example.bankaccountapp.features.viewmodel.bloc.UserState
 import com.example.bankaccountapp.ui.composables.BottomNavBar
 import com.example.bankaccountapp.ui.composables.UserCard
 import com.example.bankaccountapp.ui.theme.BankAccountAppTheme
 import com.example.bankaccountapp.ui.theme.PrimaryPurple
 
+
+
+
+@Composable
+fun HomeRoute(
+//    navigateToIncome: () -> Unit,
+//    navigateToExpense: () -> Unit,
+//    navigateToTransactions: () -> Unit,
+    state: UserState,
+) {
+    HomeScreen(
+//        navigateToIncome = navigateToIncome,
+//        navigateToExpense = navigateToExpense,
+//        navigateToTransactions = navigateToTransactions,
+        uiState = state
+    )
+}
+
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    uiState: UserState
+) {
     Scaffold(
         bottomBar = { BottomNavBar() }
     ) {
@@ -89,7 +113,9 @@ fun HomeScreen() {
 fun HomeScreenPreview() {
     BankAccountAppTheme {
         Surface {
-            HomeScreen()
+            HomeScreen(
+                uiState = UserState()
+            )
         }
     }
 }

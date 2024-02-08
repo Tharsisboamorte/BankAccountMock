@@ -87,6 +87,7 @@ fun LoginScreen(
                         if(state.userIsAuthenticated){
                             onEvent(UserEvent.GetUserData(state.email))
                             navController.navigate(route = Screens.Home.route)
+                            navController.popBackStack()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(

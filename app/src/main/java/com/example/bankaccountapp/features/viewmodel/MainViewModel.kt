@@ -8,8 +8,10 @@ import com.example.bankaccountapp.features.viewmodel.bloc.UserEvent
 import com.example.bankaccountapp.features.viewmodel.bloc.UserState
 import com.example.model.BillsData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -18,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val userRepo: UserRepositoryImpl
-): ViewModel() {
+) : ViewModel() {
 
     private val _users = userRepo.users.value
     private val _state = userRepo.state
@@ -33,14 +35,18 @@ class MainViewModel @Inject constructor(
 
     private val listOfBills = BillsData.fakeList()
 
-    fun onEvent(event: UserEvent){
-        when(event){
+    fun onEvent(event: UserEvent) {
+        when (event) {
             is UserEvent.DeleteUser -> {
                 viewModelScope.launch {
                     userRepo.deleteAccount(event.user)
                 }
             }
-            is UserEvent.GetUserData -> TODO()
+
+            is UserEvent.GetUserData -> {
+                userRepo.getUserData(state.value.email)
+            }
+
             UserEvent.SaveUser -> {
                 val name = state.value.name
                 val email = state.value.email
@@ -71,6 +77,7 @@ class MainViewModel @Inject constructor(
 
 
             }
+
             is UserEvent.SetEmail -> {
                 _state.update {
                     it.copy(
@@ -78,6 +85,7 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }
+
             is UserEvent.SetName -> {
                 _state.update {
                     it.copy(
@@ -85,13 +93,15 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }
+
             is UserEvent.SetPassword -> {
                 _state.update {
                     it.copy(
-                        password = event.password
+                        password = event.password.toString()
                     )
                 }
             }
+
             is UserEvent.SetUsersBills -> {
                 _state.update {
                     it.copy(
@@ -99,9 +109,28 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }
+
             UserEvent.UserIsAuthenticated -> {
                 val email = state.value.email
                 val password = state.value.password
+
+
+                viewModelScope.launch {
+                    val isAuthenticated =
+                        userRepo.isAuthenticated(email = email, password = password.toInt()).first()
+                    _state.update {
+                        it.copy(userIsAuthenticated = isAuthenticated)
+                    }
+                }
+            }
+
+            UserEvent.PopulateDB -> {
+                val users = BankAccountEntity.fakeListOfUser()
+                for (user in users) {
+                    viewModelScope.launch {
+                        userRepo.createUser(user)
+                    }
+                }
             }
         }
     }

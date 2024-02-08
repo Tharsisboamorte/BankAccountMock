@@ -1,15 +1,13 @@
 package com.example.bankaccountapp.data.repository
 
-import androidx.lifecycle.viewModelScope
 import com.example.bankaccountapp.database.dao.BankAccountDao
 import com.example.bankaccountapp.database.model.BankAccountEntity
 import com.example.bankaccountapp.features.viewmodel.bloc.UserState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -27,7 +25,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun isAuthenticated(email: String, password: Int): Flow<Boolean> {
         return userDao.getUserByEmail(inputEmail = email)
-            .map { user ->  checkUserPassword(user, password)}
+            .map { user -> checkUserPassword(user, password)}
             .catch { emit(false) }
     }
 
@@ -36,7 +34,13 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun checkUserPassword(user: BankAccountEntity?, password: Int): Boolean {
-        return user?.password == password
+        val isAuth =  user?.password == password
+        state.update {
+            it.copy(
+                userIsAuthenticated = isAuth
+            )
+        }
+        return isAuth
     }
 
     override suspend fun deleteAccount(user: BankAccountEntity?) {

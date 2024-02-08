@@ -13,13 +13,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bankaccountapp.R
+import com.example.bankaccountapp.features.viewmodel.bloc.UserEvent
+import com.example.bankaccountapp.features.viewmodel.bloc.UserState
 import com.example.bankaccountapp.ui.theme.BankAccountAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,10 +28,12 @@ import com.example.bankaccountapp.ui.theme.BankAccountAppTheme
 fun BaseTextField(
     label: String,
     type: KeyboardType,
-    onValueChange: (String) -> Unit
+    onEvent: (UserEvent) -> Unit,
+    state: UserState,
 ) {
 
-    var text by remember { mutableStateOf("") }
+    val emailLabel = stringResource(id = R.string.email)
+    val nameLabel = stringResource(id = R.string.name)
 
     Column(
         modifier = Modifier.wrapContentSize()
@@ -42,9 +45,14 @@ fun BaseTextField(
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = text,
+            value = if(label == emailLabel) state.email else state.name,
             onValueChange = {
-                onValueChange(it)
+                if(label == emailLabel){
+                    onEvent(UserEvent.SetEmail(it))
+                }
+                if (label == nameLabel){
+                    onEvent(UserEvent.SetName(it))
+                }
             },
             singleLine = true,
             shape = RoundedCornerShape(10.dp),
@@ -52,21 +60,5 @@ fun BaseTextField(
                 keyboardType = type
             ),
         )
-    }
-}
-
-@Preview
-@Composable
-fun TextFieldPreview(){
-    BankAccountAppTheme {
-        Surface(
-            modifier = Modifier.height(155.dp)
-        ) {
-            BaseTextField(
-                label = stringResource(R.string.email),
-                type = KeyboardType.Email,
-                onValueChange = {}
-            )
-        }
     }
 }

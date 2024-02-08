@@ -13,9 +13,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bankaccountapp.R
 import com.example.bankaccountapp.ui.theme.BankAccountAppTheme
+import java.text.NumberFormat
+import java.util.Currency
+import java.util.Locale
 
 @Composable
-fun UserCard() {
+fun UserCard(
+    balance: Double
+) {
     Box {
         Image(
             painter = painterResource(id = R.drawable.user_card),
@@ -32,7 +37,7 @@ fun UserCard() {
                     ),
                 )
                 Text(
-                    text = "R$ 20.000,00",
+                    text = formatAsCurrency(balance, "R$"),
                     color = Color.White,
                     style = MaterialTheme.typography.headlineSmall,
                 )
@@ -65,12 +70,20 @@ fun UserCard() {
     }
 }
 
+fun formatAsCurrency(value: Double, currencyCode: String): String {
+    val currency = Currency.getInstance(currencyCode)
+    val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
+    format.currency = currency
+
+    return format.format(value)
+}
+
 @Preview
 @Composable
 fun UserCardPreview() {
     BankAccountAppTheme {
         Surface {
-            UserCard()
+            UserCard(balance = 20.0)
         }
     }
 }

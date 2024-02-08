@@ -9,6 +9,7 @@ data class UserState(
     val name: String = "",
     val email: String = "",
     val password: String = "",
-    val balance: Int = 0,
-    val billsData: List<BillsData> = emptyList()
+    val balance: Double = 0.0,
+    val billsData: List<BillsData> = emptyList(),
+    val userIsAuthenticated: Boolean = false,
 )

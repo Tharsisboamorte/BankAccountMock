@@ -23,8 +23,8 @@ object DatabaseModule {
     ) = Room.databaseBuilder(
         context,
         BankAccountDB::class.java,
-        "bank_database",
-    ).createFromAsset("database/bankUserAccount.db").build()
+        "bankDatabase",
+    ).build()
 
     @Singleton
     @Provides

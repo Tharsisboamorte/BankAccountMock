@@ -1,4 +1,4 @@
-package com.example.bankaccountapp.features.view.login
+package com.example.bankaccountapp.features.view.landingPage
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -7,21 +7,21 @@ import com.example.bankaccountapp.features.viewmodel.bloc.UserEvent
 import com.example.bankaccountapp.features.viewmodel.bloc.UserState
 
 
-//const val loginNavigationRoute = "login_route"
-//fun NavController.navigateToLogin() {
-//    this.navigate(loginNavigationRoute)
+//const val landingNavigationRoute = "landing_route"
+//fun NavController.navigateToLanding() {
+//    this.navigate(landingNavigationRoute)
 //}
 //
-//fun NavGraphBuilder.loginScreen(
-//    navigateToHome: () -> Unit,
+//fun NavGraphBuilder.landingScreen(
+//    navigateToLogin: NavController,
 //    onEvent: (UserEvent) -> Unit,
 //    state: UserState
 //) {
 //    composable(
 //        route = loginNavigationRoute
 //    ) {
-//        LoginRoute(
-//            navigateToHome = navigateToHome,
+//        LandingRoute(
+//            navigateToLogin = navigateToLogin,
 //            onEvent = onEvent,
 //            state = state
 //        )

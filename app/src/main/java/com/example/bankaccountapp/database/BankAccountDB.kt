@@ -10,9 +10,8 @@ import com.example.bankaccountapp.database.model.BankAccountEntity
         BankAccountEntity::class,
     ],
     version = 1,
-    exportSchema = false,
 )
 
 abstract class BankAccountDB : RoomDatabase() {
-    abstract fun bankAccountDao(): BankAccountDao
+    abstract val dao: BankAccountDao
 }

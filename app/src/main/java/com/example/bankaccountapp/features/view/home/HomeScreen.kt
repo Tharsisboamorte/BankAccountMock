@@ -24,8 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bankaccountapp.features.viewmodel.MainViewModel
+import androidx.navigation.NavController
 import com.example.bankaccountapp.features.viewmodel.bloc.UserState
 import com.example.bankaccountapp.ui.composables.BottomNavBar
 import com.example.bankaccountapp.ui.composables.UserCard
@@ -35,27 +34,28 @@ import com.example.bankaccountapp.ui.theme.PrimaryPurple
 
 
 
-@Composable
-fun HomeRoute(
-//    navigateToIncome: () -> Unit,
-//    navigateToExpense: () -> Unit,
-//    navigateToTransactions: () -> Unit,
-    state: UserState,
-) {
-    HomeScreen(
-//        navigateToIncome = navigateToIncome,
-//        navigateToExpense = navigateToExpense,
-//        navigateToTransactions = navigateToTransactions,
-        uiState = state
-    )
-}
+//@Composable
+//fun HomeRoute(
+////    navigateToIncome: () -> Unit,
+////    navigateToExpense: () -> Unit,
+////    navigateToTransactions: () -> Unit,
+//    state: UserState,
+//) {
+//    HomeScreen(
+////        navigateToIncome = navigateToIncome,
+////        navigateToExpense = navigateToExpense,
+////        navigateToTransactions = navigateToTransactions,
+//        uiState = state
+//    )
+//}
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    uiState: UserState
+    navController: NavController,
+    state: UserState
 ) {
     Scaffold(
         bottomBar = { BottomNavBar() }
@@ -67,7 +67,7 @@ fun HomeScreen(
         ) {
             Text(
                 modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
-                text = "Good Morning, User!",
+                text = "Good Morning, ${state.name}!",
                 style = MaterialTheme.typography.headlineSmall.merge(
                     TextStyle(
                         fontWeight = FontWeight.Bold
@@ -77,7 +77,7 @@ fun HomeScreen(
             Box(
                 modifier = Modifier.wrapContentSize()
             ) {
-                UserCard()
+                UserCard(state.balance)
             }
             Row(
                 modifier = Modifier
@@ -104,18 +104,6 @@ fun HomeScreen(
             LazyColumn( ) {
                 //TODO: Implement LazyCColumn List Items
             }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    BankAccountAppTheme {
-        Surface {
-            HomeScreen(
-                uiState = UserState()
-            )
         }
     }
 }

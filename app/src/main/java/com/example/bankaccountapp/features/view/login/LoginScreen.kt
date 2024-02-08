@@ -17,31 +17,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.bankaccountapp.R
+import com.example.bankaccountapp.features.viewmodel.bloc.UserEvent
+import com.example.bankaccountapp.features.viewmodel.bloc.UserState
+import com.example.bankaccountapp.navigation.Screens
 import com.example.bankaccountapp.ui.composables.BaseTextField
 import com.example.bankaccountapp.ui.composables.BaseButton
 import com.example.bankaccountapp.ui.composables.PasswordField
 import com.example.bankaccountapp.ui.composables.RememberMe
-import com.example.bankaccountapp.ui.theme.BankAccountAppTheme
 import com.example.bankaccountapp.ui.theme.PrimaryPurple
 
 
-@Composable
-fun LoginRoute(
-    navigateToHome: () -> Unit,
-) {
-    LoginScreen(
-        navigateToHome = navigateToHome
-    )
-}
+//@Composable
+//fun LoginRoute(
+//    navigateToHome: () -> Unit,
+//    onEvent:(UserEvent) -> Unit,
+//    state: UserState
+//) {
+//    LoginScreen(
+//        navController = navigateToHome,
+//        onEvent = onEvent,
+//        state = state
+//    )
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
-    navigateToHome: () -> Unit,
+    navController: NavController,
+    onEvent:(UserEvent) -> Unit,
+    state: UserState
 ) {
     Scaffold {
         Column(
@@ -57,12 +65,14 @@ fun LoginScreen(
             BaseTextField(
                 label = stringResource(R.string.email),
                 type = KeyboardType.Email,
-                onValueChange = {},
+                onEvent = onEvent,
+                state = state
             )
             Spacer(modifier = Modifier.height(20.dp))
             PasswordField(
                 label = stringResource(R.string.password),
-                onValueChange = {},
+                onEvent = onEvent,
+                state = state
             )
             Spacer(modifier = Modifier.height(20.dp))
             RememberMe()
@@ -73,7 +83,11 @@ fun LoginScreen(
             ) {
                 BaseButton(
                     onClick = {
-                              
+                        onEvent(UserEvent.UserIsAuthenticated)
+                        if(state.userIsAuthenticated){
+                            onEvent(UserEvent.GetUserData(state.email))
+                            navController.navigate(route = Screens.Home.route)
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = PrimaryPurple,

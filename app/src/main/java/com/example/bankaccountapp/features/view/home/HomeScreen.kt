@@ -5,12 +5,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -25,13 +28,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.bankaccountapp.features.viewmodel.bloc.UserEvent
 import com.example.bankaccountapp.features.viewmodel.bloc.UserState
+import com.example.bankaccountapp.ui.composables.BillsItem
 import com.example.bankaccountapp.ui.composables.BottomNavBar
 import com.example.bankaccountapp.ui.composables.UserCard
 import com.example.bankaccountapp.ui.theme.BankAccountAppTheme
 import com.example.bankaccountapp.ui.theme.PrimaryPurple
-
-
+import com.example.model.BillsData
 
 
 //@Composable
@@ -55,8 +59,10 @@ import com.example.bankaccountapp.ui.theme.PrimaryPurple
 @Composable
 fun HomeScreen(
     navController: NavController,
-    state: UserState
+    state: UserState,
+    onEvent: (UserEvent) -> Unit
 ) {
+    val billsData = BillsData.fakeList()
     Scaffold(
         bottomBar = { BottomNavBar() }
     ) {
@@ -101,8 +107,20 @@ fun HomeScreen(
                     color = PrimaryPurple,
                 )
             }
-            LazyColumn( ) {
-                //TODO: Implement LazyCColumn List Items
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(26.dp)
+            ) {
+                items(billsData) { billsData ->
+                    BillsItem(
+                        title = billsData.title,
+                        day = billsData.day,
+                        month = billsData.month,
+                        year = billsData.year,
+                    )
+                }
             }
         }
     }

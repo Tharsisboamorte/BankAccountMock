@@ -44,7 +44,16 @@ class MainViewModel @Inject constructor(
             }
 
             is UserEvent.GetUserData -> {
-                userRepo.getUserData(state.value.email)
+                viewModelScope.launch {
+                    val user = userRepo.getUserData(state.value.email).first()
+
+                    _state.update {
+                        it.copy(
+                            name = user!!.name,
+                            balance = user.balance
+                        )
+                    }
+                }
             }
 
             UserEvent.SaveUser -> {
@@ -132,6 +141,8 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
+
+            else -> {}
         }
     }
 

@@ -45,7 +45,8 @@ fun BankNavHost(
         ){
             HomeScreen(
                 state = state,
-                navController = navController
+                navController = navController,
+                onEvent = onEvent
             )
         }
     }

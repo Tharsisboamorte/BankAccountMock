@@ -26,7 +26,6 @@ class UserRepositoryImpl @Inject constructor(
     override fun isAuthenticated(email: String, password: Int): Flow<Boolean> {
         return userDao.getUserByEmail(inputEmail = email)
             .map { user -> checkUserPassword(user, password)}
-            .catch { emit(false) }
     }
 
     override fun getUserData(email: String): Flow<BankAccountEntity?> {

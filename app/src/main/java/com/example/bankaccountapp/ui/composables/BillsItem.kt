@@ -27,10 +27,11 @@ import java.util.Locale
 @Composable
 fun BillsItem(
     title: String,
-    date: Date,
+    day: String,
+    month: String,
+    year: String,
 ) {
 
-    val monthDay = SimpleDateFormat("dd", Locale.getDefault()).format(date)
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -40,7 +41,7 @@ fun BillsItem(
             modifier = Modifier.padding(start = 15.dp)
         ) {
             Text(text = title, style = MaterialTheme.typography.titleSmall)
-            Text(text = "Febuary $monthDay, 2024")
+            Text(text = "$month $day, $year")
         }
         BaseButton(
             modifier = Modifier.width(105.dp),
@@ -51,17 +52,6 @@ fun BillsItem(
             ),
         ) {
             Text(text = "Pay", color = PrimaryPurple)
-        }
-    }
-}
-
-@Preview
-@Composable
-fun BillsItemPreview() {
-    val currentDate = System.currentTimeMillis()
-    BankAccountAppTheme {
-        Surface {
-            BillsItem(title = "Market Bills", date = Date(currentDate))
         }
     }
 }

@@ -18,7 +18,7 @@ interface BankAccountDao {
     fun getAccounts(): Flow<List<BankAccountEntity>>
 
     @Query(value = "SELECT * FROM bankAccount WHERE email = :inputEmail")
-    fun getUserByEmail(inputEmail: String): Flow<BankAccountEntity?>
+    fun getUserByEmail(inputEmail: String): Flow<BankAccountEntity>
 
     @Delete
     suspend fun deleteUser(user: BankAccountEntity)

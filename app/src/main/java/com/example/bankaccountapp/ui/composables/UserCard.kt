@@ -37,7 +37,7 @@ fun UserCard(
                     ),
                 )
                 Text(
-                    text = formatAsCurrency(balance, "R$"),
+                    text = "R$ $balance",
                     color = Color.White,
                     style = MaterialTheme.typography.headlineSmall,
                 )
@@ -70,20 +70,12 @@ fun UserCard(
     }
 }
 
-fun formatAsCurrency(value: Double, currencyCode: String): String {
-    val currency = Currency.getInstance(currencyCode)
-    val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
-    format.currency = currency
-
-    return format.format(value)
-}
-
 @Preview
 @Composable
 fun UserCardPreview() {
     BankAccountAppTheme {
         Surface {
-            UserCard(balance = 20.0)
+            UserCard(balance = 200.0)
         }
     }
 }
